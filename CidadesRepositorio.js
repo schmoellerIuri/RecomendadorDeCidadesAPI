@@ -21,9 +21,25 @@ class CidadesRepositorio {
             }
         });
 
-        cache.set(`${lat}${lon}${raio_busca}${offset}`, response.data.data);
+        //remover registros com nome e estado duplicados
+        const result = CidadesRepositorio.removerDuplicados(response.data.data);
 
-        return response.data.data;
+        cache.set(`${lat}${lon}${raio_busca}${offset}`, result);
+
+        return result;
+    };
+
+    static removerDuplicados = (cidades) => {
+        let cidadesUnicas = [];
+        for (let i = 0; i < cidades.length; i++) {
+            if (cidadesUnicas.length === 0)
+                cidadesUnicas.push(cidades[i]);
+            else if (cidadesUnicas.at(-1).name != cidades[i].name || cidadesUnicas.at(-1).region != cidades[i].region) {
+                cidadesUnicas.push(cidades[i]);
+            }
+        }
+
+        return cidadesUnicas;
     };
 
     static getCoordenadas = async (cidade, estado) => {
