@@ -45,7 +45,7 @@ class CidadesRepositorio {
         if (cachedData)
             return cachedData;
 
-        const response = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.CLIMATE_API_KEY}`);
+        const response = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.CLIMATE_API_KEY}&units=metric`);
         
         cache.set(`${lat}${lon}`, response.data.list);
 
@@ -57,8 +57,8 @@ class CidadesRepositorio {
 
         return [...datas].map(data => {
             const previsaoDoDia = previsaoCompleta.filter(e => e.dt_txt.startsWith(data));
-            const temp_max = Math.max(...previsaoDoDia.map(e => e.main.temp_max - 273.15));
-            const temp_min = Math.min(...previsaoDoDia.map(e => e.main.temp_min - 273.15));
+            const temp_max = Math.max(...previsaoDoDia.map(e => e.main.temp_max));
+            const temp_min = Math.min(...previsaoDoDia.map(e => e.main.temp_min));
             const chuva = previsaoDoDia.some(e => e.weather[0].main === 'Rain');
             return { data, temp_max: temp_max.toFixed(2), temp_min: temp_min.toFixed(2), chuva: chuva};
         });

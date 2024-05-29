@@ -49,8 +49,9 @@ app.get('/cidades', async (req, res) => {
       };
     }));
 
+
     const cidadesFiltradas = cidadesProximasResumidas.filter(element => 
-      element.previsaoDoTempo.every(e => e.temp_max <= max_temp && e.temp_min >= min_temp)
+      element.previsaoDoTempo.every(e => e.temp_max <= parseFloat(max_temp) && e.temp_min >= parseFloat(min_temp))
     );
 
     cache.set(`${nome}${estado}${max_temp}${min_temp}${raio_busca}${offset}`, cidadesFiltradas);
