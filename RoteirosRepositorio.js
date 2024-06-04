@@ -12,7 +12,8 @@ class RoteirosRepositorio {
 
         const result = await model.generateContent(texto);
         const response = await result.response;
-        console.log(response);
+        if (response.candidates[0].finishReason !== 'STOP')
+            throw new Error('Algo de errado ocorreu ao gerar o roteiro');
         return response;
     }
 }

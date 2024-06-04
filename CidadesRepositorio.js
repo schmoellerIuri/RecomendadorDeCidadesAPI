@@ -6,25 +6,47 @@ const cache = new NodeCache({ stdTTL: 3600 });
 
 class CidadesRepositorio {
     static getCidadesProximas = async (lat,lon, raio_busca, offset) => {
-        const cachedData = cache.get(`${lat}${lon}${raio_busca}${offset}`);
+        const cacheKey = `${lat}${lon}${raio_busca}${offset}`;
+        const cachedData = cache.get(cacheKey);
 
         if (cachedData)
             return cachedData;
-        
-        const response = await axios.get(`http://geodb-free-service.wirefreethought.com/v1/geo/locations/${lat}${lon}/nearbyPlaces`, {
-            params: {
-                radius: raio_busca,
-                limit: 10,
-                offset: offset,
-                types: 'CITY',
-                languageCode: 'pt-BR'
+
+        const limit = 10;
+        let allCidades = [];
+        let currentOffset = offset;
+        let remainingLimit = limit;
+        let metadata = {};
+
+        while (allCidades.length < limit) {
+            const response = await axios.get(`http://geodb-free-service.wirefreethought.com/v1/geo/locations/${lat}${lon}/nearbyPlaces`, {
+                params: {
+                    radius: raio_busca,
+                    limit: remainingLimit,
+                    offset: currentOffset,
+                    types: 'CITY',
+                    languageCode: 'pt-BR',
+                    distanceUnit: 'KM'
+                }
+            });
+
+            metadata = response.data.metadata;
+
+            if (response.data.data.length === 0) {
+                break; // Sai do loop se não houver mais resultados
             }
-        });
 
-        //remover registros com nome e estado duplicados
-        const result = CidadesRepositorio.removerDuplicados(response.data.data);
+            const uniqueCidades = CidadesRepositorio.removerDuplicados(response.data.data);
 
-        cache.set(`${lat}${lon}${raio_busca}${offset}`, result);
+            allCidades = [...new Set([...allCidades, ...uniqueCidades])];
+
+            currentOffset += remainingLimit;
+            remainingLimit = limit - allCidades.length;
+        }
+
+        const result = {metadata: metadata ,cidades: allCidades.slice(0, limit)};
+
+        cache.set(cacheKey, result);
 
         return result;
     };
@@ -32,27 +54,12 @@ class CidadesRepositorio {
     static removerDuplicados = (cidades) => {
         let cidadesUnicas = [];
         for (let i = 0; i < cidades.length; i++) {
-            if (cidadesUnicas.length === 0)
-                cidadesUnicas.push(cidades[i]);
-            else if (cidadesUnicas.at(-1).name != cidades[i].name || cidadesUnicas.at(-1).region != cidades[i].region) {
-                cidadesUnicas.push(cidades[i]);
-            }
+            if (!cidadesUnicas.some(e => e.name === cidades[i].name && e.region === cidades[i].region))
+                cidadesUnicas.push({ name: cidades[i].name, region: cidades[i].region, latitude: cidades[i].latitude, longitude: cidades[i].longitude, distance: cidades[i].distance});
         }
+        cidades = null;
 
         return cidadesUnicas;
-    };
-
-    static getCoordenadas = async (cidade, estado) => {
-        const cachedData = cache.get(`${cidade}${estado}`);
-
-        if (cachedData)
-            return cachedData;
-
-        const response = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${cidade},${estado},BR&limit=1&appid=${process.env.CLIMATE_API_KEY}`);
-
-        cache.set(`${cidade}${estado}`, response.data[0]);
-
-        return response.data[0];
     };
 
     static getPrevisaoDoTempo = async (lat, lon) => {
