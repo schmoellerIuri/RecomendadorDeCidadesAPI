@@ -109,7 +109,7 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
 ### Gerar roteiro com a resposta da busca de cidades próximas
 Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a lista de cidades retornadas pela requisição GET de `/cidades`. Exemplo:
 ```bash
-curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/json" -d '{{
+curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/json" -d '{
     "cidades": [
         {
             "nome": "Rio do Sul",
