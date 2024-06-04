@@ -39,7 +39,7 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
 .
 ├── CidadesRepositorio.js
 ├── RoteirosRepositorio.js
-├── index.js
+├── server.js
 ├── .env
 ├── package.json
 ├── key.pem
@@ -83,7 +83,7 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
 
 5. Inicie o servidor:
     ```bash
-    node index.js
+    node server.js
     ```
 
 ## Uso
