@@ -213,3 +213,7 @@ Para mais informações, consulte a documentação oficial das APIs utilizadas:
 - [Google Gemini API](https://ai.google.dev/gemini-api/docs/get-started/tutorial?lang=node)
 
 Sinta-se à vontade para abrir issues para reportar bugs ou sugerir melhorias.
+
+### TODO
+- Upload de imagem docker no DockerHub.
+- Deploy da API com docker, nginx e azure.
