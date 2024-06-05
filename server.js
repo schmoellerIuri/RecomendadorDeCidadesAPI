@@ -42,30 +42,24 @@ app.get('/cidades', async (req, res) => {
   if (raio_busca > 200 || raio_busca <= 0)
     return res.status(400).send('O raio de busca deve ser menor ou igual a 200km e maior que 0km');
 
-  const coordenadas = { lat, lon };
-
   try {
-    const cidadesProximas = await CidadesRepositorio.getCidadesProximas(coordenadas.lat, coordenadas.lon, raio_busca, offset !== undefined ? offset : 0);
+    let result = {metadata: {nextPage: 0, totalCount: 0}, cidades: []};
+    let limit = 10;	
+    let remainingLimit = limit;
 
-    const cidadesProximasResumidas = await Promise.all(cidadesProximas.cidades.map(async (element) => {
-      const previsaoCompleta = await CidadesRepositorio.getPrevisaoDoTempo(element.latitude, element.longitude);
-      const previsoesResumidas = CidadesRepositorio.processarPrevisao(previsaoCompleta);
-      
-      return {
-        nome: element.name,
-        estado: element.region,
-        distancia: element.distance,
-        previsaoDoTempo: previsoesResumidas
-      };
-    }));
+    while(result.cidades.length < limit) {
+      const dados = await CidadesRepositorio.getCidadesProximasPorTemperatura(lat, lon, max_temp, min_temp, raio_busca, result.metadata.nextPage, remainingLimit);
+      result.metadata = dados.metadata;
+      result.cidades = result.cidades.concat(dados.cidades);
 
-    const cidadesFiltradas = cidadesProximasResumidas.filter(element => 
-      element.previsaoDoTempo.every(e => e.temp_max <= parseFloat(max_temp) && e.temp_min >= parseFloat(min_temp))
-    );
+      remainingLimit = limit - result.cidades.length;
+      if (result.metadata.nextPage >= result.metadata.totalCount)
+        break;
+    }
 
-    cache.set(`${lat}${lon}${max_temp}${min_temp}${raio_busca}${offset}`, cidadesFiltradas);
+    cache.set(`${lat}${lon}${max_temp}${min_temp}${raio_busca}${offset}`, result);
 
-    res.status(200).send({metadata: cidadesProximas.metadata, cidades: cidadesFiltradas});
+    res.status(200).send(result);
   } catch (error) {
     res.status(500).send('Erro ao buscar dados das cidades');
     console.error(error);

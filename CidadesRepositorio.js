@@ -5,14 +5,25 @@ require('dotenv').config();
 const cache = new NodeCache({ stdTTL: 3600 });
 
 class CidadesRepositorio {
-    static getCidadesProximas = async (lat,lon, raio_busca, offset) => {
+    static getCidadesProximasPorTemperatura = async (lat, lon, max_temp, min_temp, raio_busca, offset, limit = 10) => {
+        const cidadesProximas = await this.getCidadesProximas(lat, lon, raio_busca, offset !== undefined ? parseInt(offset) : 0, limit);
+
+        const previsaoCidades = await this.getPrevisaoCidades(cidadesProximas.cidades);
+
+        const cidadesFiltradas = previsaoCidades.filter(element => 
+           element.previsaoDoTempo.every(e => e.day.maxtemp_c <= parseFloat(max_temp) && e.day.mintemp_c >= parseFloat(min_temp))
+        );
+
+        return {metadata: cidadesProximas.metadata, cidades: cidadesFiltradas};
+    };
+
+    static getCidadesProximas = async (lat,lon, raio_busca, offset, limit) => {
         const cacheKey = `${lat}${lon}${raio_busca}${offset}`;
         const cachedData = cache.get(cacheKey);
 
         if (cachedData)
             return cachedData;
 
-        const limit = 10;
         let allCidades = [];
         let currentOffset = offset;
         let remainingLimit = limit;
@@ -36,15 +47,15 @@ class CidadesRepositorio {
                 break; // Sai do loop se não houver mais resultados
             }
 
-            const uniqueCidades = CidadesRepositorio.removerDuplicados(response.data.data);
+            const uniqueCidades = this.removerDuplicados(response.data.data);
 
-            allCidades = [...new Set([...allCidades, ...uniqueCidades])];
+            allCidades = allCidades.concat(uniqueCidades);
 
             currentOffset += remainingLimit;
             remainingLimit = limit - allCidades.length;
         }
 
-        const result = {metadata: metadata ,cidades: allCidades.slice(0, limit)};
+        const result = {metadata: {nextPage: currentOffset, totalCount: metadata.totalCount} ,cidades: allCidades.slice(0, limit)};
 
         cache.set(cacheKey, result);
 
@@ -62,29 +73,39 @@ class CidadesRepositorio {
         return cidadesUnicas;
     };
 
+    static getPrevisaoCidades = async (cidadesProximas) => {
+        const previsaoCidades = await Promise.all(cidadesProximas.map(async (element) => {
+            const previsaoCompleta = await this.getPrevisaoDoTempo(element.latitude, element.longitude);
+            
+            return {
+              nome: element.name,
+              estado: element.region,
+              distancia: element.distance,
+              previsaoDoTempo: previsaoCompleta
+            };
+          }));
+
+        return previsaoCidades;
+    };
+
     static getPrevisaoDoTempo = async (lat, lon) => {
         const cachedData = cache.get(`${lat}${lon}`);
         
         if (cachedData)
             return cachedData;
 
-        const response = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.CLIMATE_API_KEY}&units=metric`);
-        
-        cache.set(`${lat}${lon}`, response.data.list);
-
-        return response.data.list;
-    };
-
-    static processarPrevisao = (previsaoCompleta) => {
-        const datas = new Set(previsaoCompleta.map(e => e.dt_txt.split(' ')[0]));
-
-        return [...datas].map(data => {
-            const previsaoDoDia = previsaoCompleta.filter(e => e.dt_txt.startsWith(data));
-            const temp_max = Math.max(...previsaoDoDia.map(e => e.main.temp_max));
-            const temp_min = Math.min(...previsaoDoDia.map(e => e.main.temp_min));
-            const chuva = previsaoDoDia.some(e => e.weather[0].main === 'Rain');
-            return { data, temp_max: temp_max.toFixed(2), temp_min: temp_min.toFixed(2), chuva: chuva};
+        const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json?`, {
+            params: {
+                key: process.env.WEATHER_API_KEY,
+                q: `${lat},${lon}`,
+                days: 5,
+                lang: 'pt'
+            }
         });
+        
+        cache.set(`${lat}${lon}`, response.data.forecast.forecastday);
+
+        return response.data.forecast.forecastday;
     };
 }
 
