@@ -110,7 +110,7 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
 Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a lista de cidades retornadas pela requisição GET de `/cidades`. Exemplo:
 ```bash
 curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/json" -d '{
-    "cidades": "cidades": [
+    "cidades": [
         {
             "nome": "Ribeirão Pires",
             "estado": "São Paulo",
