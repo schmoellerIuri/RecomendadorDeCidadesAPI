@@ -118,101 +118,71 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
             "previsaoDoTempo": [
                 {
                     "date": "2024-06-05",
-                    "date_epoch": 1717545600,
                     "day": {
                         "maxtemp_c": 18.2,
                         "mintemp_c": 14.5,
                         "avgtemp_c": 15.8,
-                        "maxwind_kph": 7.6,
-                        "totalprecip_mm": 0.18,
-                        "avgvis_km": 5.5,
-                        "avghumidity": 92,
                         "daily_will_it_rain": 1,
                         "daily_chance_of_rain": 86,
                         "condition": {
                             "text": "Possibilidade de chuva irregular",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png",
-                            "code": 1063
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-06",
-                    "date_epoch": 1717632000,
                     "day": {
                         "maxtemp_c": 23.4,
                         "mintemp_c": 14.5,
                         "avgtemp_c": 18,
-                        "maxwind_kph": 8.3,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 8.3,
-                        "avghumidity": 81,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-07",
-                    "date_epoch": 1717718400,
                     "day": {
                         "maxtemp_c": 24.8,
                         "mintemp_c": 15.8,
                         "avgtemp_c": 19.7,
-                        "maxwind_kph": 6.8,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 10,
-                        "avghumidity": 72,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-08",
-                    "date_epoch": 1717804800,
                     "day": {
                         "maxtemp_c": 25.2,
                         "mintemp_c": 16.7,
                         "avgtemp_c": 20.1,
-                        "maxwind_kph": 7.6,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 10,
-                        "avghumidity": 71,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-09",
-                    "date_epoch": 1717891200,
                     "day": {
                         "maxtemp_c": 27,
                         "mintemp_c": 16.5,
                         "avgtemp_c": 21.1,
-                        "maxwind_kph": 9.7,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 10,
-                        "avghumidity": 62,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 }
@@ -225,101 +195,148 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
             "previsaoDoTempo": [
                 {
                     "date": "2024-06-05",
-                    "date_epoch": 1717545600,
                     "day": {
                         "maxtemp_c": 18.2,
                         "mintemp_c": 14.5,
                         "avgtemp_c": 15.8,
-                        "maxwind_kph": 7.6,
-                        "totalprecip_mm": 0.18,
-                        "avgvis_km": 5.5,
-                        "avghumidity": 92,
                         "daily_will_it_rain": 1,
                         "daily_chance_of_rain": 86,
                         "condition": {
                             "text": "Possibilidade de chuva irregular",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png",
-                            "code": 1063
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-06",
-                    "date_epoch": 1717632000,
                     "day": {
                         "maxtemp_c": 23.4,
                         "mintemp_c": 14.5,
                         "avgtemp_c": 18,
-                        "maxwind_kph": 8.3,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 8.3,
-                        "avghumidity": 81,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-07",
-                    "date_epoch": 1717718400,
                     "day": {
                         "maxtemp_c": 24.8,
                         "mintemp_c": 15.8,
                         "avgtemp_c": 19.7,
-                        "maxwind_kph": 6.8,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 10,
-                        "avghumidity": 72,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-08",
-                    "date_epoch": 1717804800,
                     "day": {
                         "maxtemp_c": 25.2,
                         "mintemp_c": 16.7,
                         "avgtemp_c": 20.1,
-                        "maxwind_kph": 7.6,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 10,
-                        "avghumidity": 71,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 },
                 {
                     "date": "2024-06-09",
-                    "date_epoch": 1717891200,
                     "day": {
                         "maxtemp_c": 27,
                         "mintemp_c": 16.5,
                         "avgtemp_c": 21.1,
-                        "maxwind_kph": 9.7,
-                        "totalprecip_mm": 0,
-                        "avgvis_km": 10,
-                        "avghumidity": 62,
                         "daily_will_it_rain": 0,
                         "daily_chance_of_rain": 0,
                         "condition": {
                             "text": "Sol",
-                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
-                            "code": 1000
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "nome": "Várzea Paulista",
+            "estado": "São Paulo",
+            "distancia": 42.22,
+            "previsaoDoTempo": [
+                {
+                    "date": "2024-06-05",
+                    "day": {
+                        "maxtemp_c": 22.9,
+                        "mintemp_c": 14,
+                        "avgtemp_c": 17.4,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Parcialmente nublado",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-06",
+                    "day": {
+                        "maxtemp_c": 24.6,
+                        "mintemp_c": 14.1,
+                        "avgtemp_c": 18.5,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-07",
+                    "day": {
+                        "maxtemp_c": 25.8,
+                        "mintemp_c": 15,
+                        "avgtemp_c": 19.4,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-08",
+                    "day": {
+                        "maxtemp_c": 26.5,
+                        "mintemp_c": 15.4,
+                        "avgtemp_c": 19.8,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-09",
+                    "day": {
+                        "maxtemp_c": 26.7,
+                        "mintemp_c": 15.3,
+                        "avgtemp_c": 20.1,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
                         }
                     }
                 }
