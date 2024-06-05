@@ -209,7 +209,7 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
 
 Para mais informações, consulte a documentação oficial das APIs utilizadas:
 - [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)
-- [OpenWeather API](https://openweathermap.org/api)
+- [Weather API](https://www.weatherapi.com)
 - [Google Gemini API](https://ai.google.dev/gemini-api/docs/get-started/tutorial?lang=node)
 
 Sinta-se à vontade para abrir issues para reportar bugs ou sugerir melhorias.
