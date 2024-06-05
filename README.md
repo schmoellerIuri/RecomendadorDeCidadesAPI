@@ -1,6 +1,6 @@
 # Cidades e Roteiros Recomendados
 
-Este projeto implementa um servidor de recomendações de cidades com base no clima, utilizando a API GeoDB e a API OpenWeather para obter informações geográficas e de previsão do tempo, respectivamente. Ele oferece dois endpoints principais: um para buscar cidades próximas e outro para gerar recomendações de roteiros de viagem.
+Este projeto implementa um servidor de recomendações de cidades com base no clima, utilizando a API GeoDB e a Weather API para obter informações geográficas e de previsão do tempo, respectivamente. Ele oferece dois endpoints principais: um para buscar cidades próximas e outro para gerar recomendações de roteiros de viagem.
 A geração dos roteiros é feita por meio da API do modelo de linguagem Google Gemini.
 
 ## Funcionalidades
