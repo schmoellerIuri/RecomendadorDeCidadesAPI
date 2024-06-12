@@ -5,92 +5,63 @@ require('dotenv').config();
 const cache = new NodeCache({ stdTTL: 3600 });
 
 class CidadesRepositorio {
-    static getCidadesProximasPorTemperatura = async (lat, lon, max_temp, min_temp, raio_busca, offset, limit = 10) => {
-        const cidadesProximas = await this.getCidadesProximas(lat, lon, raio_busca, offset !== undefined ? parseInt(offset) : 0, limit);
+    static getCidadesProximasPorTemperatura = async (lat, lon, max_temp, min_temp, raio_busca) => {
+        const cidadesProximas = await this.getCidadesProximas(lat, lon, raio_busca);
 
-        const previsaoCidades = await this.getPrevisaoCidades(cidadesProximas.cidades);
+        console.log(lat,lon);
 
-        const cidadesFiltradas = previsaoCidades.filter(element => 
-           element.previsaoDoTempo.every(e => e.day.maxtemp_c <= parseFloat(max_temp) && e.day.mintemp_c >= parseFloat(min_temp))
+        const previsaoCidades = await this.getPrevisaoCidades(cidadesProximas);
+
+        const cidadesFiltradas = previsaoCidades.filter(element =>
+            element.previsaoDoTempo.every(e => e.day.maxtemp_c <= parseFloat(max_temp) && e.day.mintemp_c >= parseFloat(min_temp))
         );
 
-        return {metadata: cidadesProximas.metadata, cidades: cidadesFiltradas};
+        return cidadesFiltradas;
     };
 
-    static getCidadesProximas = async (lat,lon, raio_busca, offset, limit) => {
-        const cacheKey = `${lat}${lon}${raio_busca}${offset}`;
+    static getCidadesProximas = async (lat, lon, raio_busca) => {
+        const cacheKey = `${lat}${lon}${raio_busca}`;
         const cachedData = cache.get(cacheKey);
 
         if (cachedData)
             return cachedData;
 
-        let allCidades = [];
-        let currentOffset = offset;
-        let remainingLimit = limit;
-        let metadata = {};
-
-        while (allCidades.length < limit) {
-            const response = await axios.get(`http://geodb-free-service.wirefreethought.com/v1/geo/locations/${lat}${lon}/nearbyPlaces`, {
-                params: {
-                    radius: raio_busca,
-                    limit: remainingLimit,
-                    offset: currentOffset,
-                    types: 'CITY',
-                    languageCode: 'pt-BR',
-                    distanceUnit: 'KM'
+        const response = await axios.post(`https://places.googleapis.com/v1/places:searchNearby?fields=places.formattedAddress%2Cplaces.location&key=${process.env.PLACES_API_KEY}`,{
+                includedTypes: ['administrative_area_level_2'],
+                maxResultCount: 20,
+                languageCode: 'pt-br',
+                locationRestriction: {
+                    circle: {
+                        center: {
+                            latitude: lat,
+                            longitude: lon
+                        },
+                        radius: raio_busca * 1000
+                    }
                 }
             });
 
-            metadata = response.data.metadata;
+        cache.set(cacheKey, response.data.places);
 
-            if (response.data.data.length === 0) {
-                break; // Sai do loop se não houver mais resultados
-            }
-
-            const uniqueCidades = this.removerDuplicados(response.data.data);
-
-            allCidades = allCidades.concat(uniqueCidades);
-
-            currentOffset += remainingLimit;
-            remainingLimit = limit - allCidades.length;
-        }
-
-        const result = {metadata: {nextPage: currentOffset, totalCount: metadata.totalCount} ,cidades: allCidades.slice(0, limit)};
-
-        cache.set(cacheKey, result);
-
-        return result;
-    };
-
-    static removerDuplicados = (cidades) => {
-        let cidadesUnicas = [];
-        for (let i = 0; i < cidades.length; i++) {
-            if (!cidadesUnicas.some(e => e.name === cidades[i].name && e.region === cidades[i].region))
-                cidadesUnicas.push({ name: cidades[i].name, region: cidades[i].region, latitude: cidades[i].latitude, longitude: cidades[i].longitude, distance: cidades[i].distance});
-        }
-        cidades = null;
-
-        return cidadesUnicas;
+        return response.data.places;
     };
 
     static getPrevisaoCidades = async (cidadesProximas) => {
         const previsaoCidades = await Promise.all(cidadesProximas.map(async (element) => {
-            const previsaoCompleta = await this.getPrevisaoDoTempo(element.latitude, element.longitude);
-            
+            const previsaoCompleta = await this.getPrevisaoDoTempo(element.location.latitude, element.location.longitude);
+
             return {
-              nome: element.name,
-              estado: element.region,
-              distancia: element.distance,
-              previsaoDoTempo: previsaoCompleta
+                nome: element.formattedAddress,
+                previsaoDoTempo: previsaoCompleta
             };
-          }));
+        }));
 
         return previsaoCidades;
     };
 
     static getPrevisaoDoTempo = async (lat, lon) => {
         const cachedData = cache.get(`${lat}${lon}`);
-        
+
         if (cachedData)
             return cachedData;
 
@@ -102,7 +73,7 @@ class CidadesRepositorio {
                 lang: 'pt'
             }
         });
-        
+
         cache.set(`${lat}${lon}`, response.data.forecast.forecastday);
 
         return response.data.forecast.forecastday;
