@@ -8,6 +8,9 @@ class CidadesRepositorio {
     static getCidadesProximasPorTemperatura = async (lat, lon, max_temp, min_temp, raio_busca, offset, limit = 10) => {
         const cidadesProximas = await this.getCidadesProximas(lat, lon, raio_busca, offset !== undefined ? parseInt(offset) : 0, limit);
 
+        if (!cidadesProximas)
+            throw new Error('Nenhuma cidade encontrada');
+
         const previsaoCidades = await this.getPrevisaoCidades(cidadesProximas.cidades);
 
         const cidadesFiltradas = previsaoCidades.filter(element => 
