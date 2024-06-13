@@ -1,6 +1,6 @@
 # Cidades e Roteiros Recomendados
 
-Este projeto implementa um servidor de recomendações de cidades com base no clima, utilizando a API GeoDB e a API OpenWeather para obter informações geográficas e de previsão do tempo, respectivamente. Ele oferece dois endpoints principais: um para buscar cidades próximas e outro para gerar recomendações de roteiros de viagem.
+Este projeto implementa um servidor de recomendações de cidades com base no clima, utilizando a API GeoDB e a Weather API para obter informações geográficas e de previsão do tempo, respectivamente. Ele oferece dois endpoints principais: um para buscar cidades próximas e outro para gerar recomendações de roteiros de viagem.
 A geração dos roteiros é feita por meio da API do modelo de linguagem Google Gemini.
 
 ## Funcionalidades
@@ -112,91 +112,238 @@ Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a li
 curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/json" -d '{
     "cidades": [
         {
-            "nome": "Rio do Sul",
-            "estado": "Santa Catarina",
-            "distancia": 0.06,
+            "nome": "Ribeirão Pires",
+            "estado": "São Paulo",
+            "distancia": 29.23,
             "previsaoDoTempo": [
                 {
-                    "data": "2024-06-03",
-                    "temp_max": "23.55",
-                    "temp_min": "16.27",
-                    "chuva": true
+                    "date": "2024-06-05",
+                    "day": {
+                        "maxtemp_c": 18.2,
+                        "mintemp_c": 14.5,
+                        "avgtemp_c": 15.8,
+                        "daily_will_it_rain": 1,
+                        "daily_chance_of_rain": 86,
+                        "condition": {
+                            "text": "Possibilidade de chuva irregular",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-04",
-                    "temp_max": "17.23",
-                    "temp_min": "11.29",
-                    "chuva": true
+                    "date": "2024-06-06",
+                    "day": {
+                        "maxtemp_c": 23.4,
+                        "mintemp_c": 14.5,
+                        "avgtemp_c": 18,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-05",
-                    "temp_max": "20.96",
-                    "temp_min": "9.98",
-                    "chuva": false
+                    "date": "2024-06-07",
+                    "day": {
+                        "maxtemp_c": 24.8,
+                        "mintemp_c": 15.8,
+                        "avgtemp_c": 19.7,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-06",
-                    "temp_max": "22.19",
-                    "temp_min": "11.73",
-                    "chuva": false
+                    "date": "2024-06-08",
+                    "day": {
+                        "maxtemp_c": 25.2,
+                        "mintemp_c": 16.7,
+                        "avgtemp_c": 20.1,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-07",
-                    "temp_max": "24.05",
-                    "temp_min": "12.25",
-                    "chuva": false
-                },
-                {
-                    "data": "2024-06-08",
-                    "temp_max": "22.93",
-                    "temp_min": "12.92",
-                    "chuva": false
+                    "date": "2024-06-09",
+                    "day": {
+                        "maxtemp_c": 27,
+                        "mintemp_c": 16.5,
+                        "avgtemp_c": 21.1,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 }
             ]
         },
         {
-            "nome": "Indaial",
-            "estado": "Santa Catarina",
-            "distancia": 53.86,
+            "nome": "Rio Grande da Serra",
+            "estado": "São Paulo",
+            "distancia": 32.75,
             "previsaoDoTempo": [
                 {
-                    "data": "2024-06-03",
-                    "temp_max": "25.91",
-                    "temp_min": "18.05",
-                    "chuva": true
+                    "date": "2024-06-05",
+                    "day": {
+                        "maxtemp_c": 18.2,
+                        "mintemp_c": 14.5,
+                        "avgtemp_c": 15.8,
+                        "daily_will_it_rain": 1,
+                        "daily_chance_of_rain": 86,
+                        "condition": {
+                            "text": "Possibilidade de chuva irregular",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/176.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-04",
-                    "temp_max": "19.03",
-                    "temp_min": "13.27",
-                    "chuva": true
+                    "date": "2024-06-06",
+                    "day": {
+                        "maxtemp_c": 23.4,
+                        "mintemp_c": 14.5,
+                        "avgtemp_c": 18,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-05",
-                    "temp_max": "22.30",
-                    "temp_min": "11.57",
-                    "chuva": false
+                    "date": "2024-06-07",
+                    "day": {
+                        "maxtemp_c": 24.8,
+                        "mintemp_c": 15.8,
+                        "avgtemp_c": 19.7,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-06",
-                    "temp_max": "24.84",
-                    "temp_min": "13.50",
-                    "chuva": false
+                    "date": "2024-06-08",
+                    "day": {
+                        "maxtemp_c": 25.2,
+                        "mintemp_c": 16.7,
+                        "avgtemp_c": 20.1,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 },
                 {
-                    "data": "2024-06-07",
-                    "temp_max": "26.65",
-                    "temp_min": "14.55",
-                    "chuva": false
-                },
-                {
-                    "data": "2024-06-08",
-                    "temp_max": "26.10",
-                    "temp_min": "15.36",
-                    "chuva": false
+                    "date": "2024-06-09",
+                    "day": {
+                        "maxtemp_c": 27,
+                        "mintemp_c": 16.5,
+                        "avgtemp_c": 21.1,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
                 }
             ]
-        }'
+        },
+        {
+            "nome": "Várzea Paulista",
+            "estado": "São Paulo",
+            "distancia": 42.22,
+            "previsaoDoTempo": [
+                {
+                    "date": "2024-06-05",
+                    "day": {
+                        "maxtemp_c": 22.9,
+                        "mintemp_c": 14,
+                        "avgtemp_c": 17.4,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Parcialmente nublado",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-06",
+                    "day": {
+                        "maxtemp_c": 24.6,
+                        "mintemp_c": 14.1,
+                        "avgtemp_c": 18.5,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-07",
+                    "day": {
+                        "maxtemp_c": 25.8,
+                        "mintemp_c": 15,
+                        "avgtemp_c": 19.4,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-08",
+                    "day": {
+                        "maxtemp_c": 26.5,
+                        "mintemp_c": 15.4,
+                        "avgtemp_c": 19.8,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                },
+                {
+                    "date": "2024-06-09",
+                    "day": {
+                        "maxtemp_c": 26.7,
+                        "mintemp_c": 15.3,
+                        "avgtemp_c": 20.1,
+                        "daily_will_it_rain": 0,
+                        "daily_chance_of_rain": 0,
+                        "condition": {
+                            "text": "Sol",
+                            "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}'
 ```
 
 ## Contribuição
@@ -209,7 +356,7 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
 
 Para mais informações, consulte a documentação oficial das APIs utilizadas:
 - [GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)
-- [OpenWeather API](https://openweathermap.org/api)
+- [Weather API](https://www.weatherapi.com)
 - [Google Gemini API](https://ai.google.dev/gemini-api/docs/get-started/tutorial?lang=node)
 
 Sinta-se à vontade para abrir issues para reportar bugs ou sugerir melhorias.
