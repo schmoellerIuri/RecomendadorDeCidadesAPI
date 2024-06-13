@@ -8,8 +8,6 @@ class CidadesRepositorio {
     static getCidadesProximasPorTemperatura = async (lat, lon, max_temp, min_temp, raio_busca) => {
         const cidadesProximas = await this.getCidadesProximas(lat, lon, raio_busca);
 
-        console.log(lat,lon);
-
         const previsaoCidades = await this.getPrevisaoCidades(cidadesProximas);
 
         const cidadesFiltradas = previsaoCidades.filter(element =>
