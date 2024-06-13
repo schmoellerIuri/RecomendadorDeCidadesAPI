@@ -44,14 +44,14 @@ app.get('/cidades', async (req, res) => {
   if (latFloat < -90 || latFloat > 90 || lonFloat < -180 || lonFloat > 180)
     return res.status(400).send('Coordenadas inválidas');
 
-  if (max_temp < min_temp)
+  if (parseFloat(max_temp) < parseFloat(min_temp))
     return res.status(400).send('A temperatura máxima deve ser maior ou igual a temperatura mínima');
 
   if (raio_busca > 200 || raio_busca <= 0)
     return res.status(400).send('O raio de busca deve ser menor ou igual a 200km e maior que 0km');
 
   try {
-    let result = {metadata: {nextPage: 0, totalCount: 0}, cidades: []};
+    let result = {metadata: {nextPage: offset, totalCount: 0}, cidades: []};
     let limit = 10;	
     let remainingLimit = limit;
 
