@@ -4,11 +4,19 @@ const { createServer } = require('https');
 const { readFileSync } = require('fs');
 const express = require('express');
 const NodeCache = require('node-cache');
+const cors = require('cors');
 
 const app = express();
 const cache = new NodeCache({ stdTTL: 3600 });
 
 app.use(express.json());
+
+// Configurar CORS
+app.use(cors({
+  origin: '*', // Permitir todas as origens
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Carregar os certificados SSL
 const sslOptions = {
