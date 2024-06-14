@@ -80,12 +80,13 @@ app.post('/recomendacao', async (req, res) => {
   }
   const infos = req.body.cidades;
   try {
-    const roteiro = await RoteirosRepositorio.gerarRoteiro(infos);
-    res.status(200).send(roteiro.text());
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    await RoteirosRepositorio.gerarRoteiro(infos, res);
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
 
 // Criar e iniciar o servidor HTTPS
-createServer(sslOptions, app).listen(443);
+createServer(sslOptions, app).listen(5000);
