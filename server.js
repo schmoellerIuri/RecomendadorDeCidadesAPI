@@ -1,7 +1,6 @@
 const CidadesRepositorio = require('./CidadesRepositorio.js');
 const RoteirosRepositorio = require('./RoteirosRepositorio.js');
 const { createServer } = require('https');
-const { readFileSync } = require('fs');
 const express = require('express');
 const NodeCache = require('node-cache');
 const cors = require('cors');
@@ -11,18 +10,11 @@ const cache = new NodeCache({ stdTTL: 3600 });
 
 app.use(express.json());
 
-// Configurar CORS
 app.use(cors({
   origin: '*', // Permitir todas as origens
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-// Carregar os certificados SSL
-const sslOptions = {
-  key: readFileSync('key.pem'),
-  cert: readFileSync('cert.pem')
-};
 
 app.get('/cidades', async (req, res) => {
   let { lat, lon, max_temp, min_temp, raio_busca, offset } = req.query;
@@ -88,5 +80,4 @@ app.post('/recomendacao', async (req, res) => {
   }
 });
 
-// Criar e iniciar o servidor HTTPS
-createServer(sslOptions, app).listen(5000);
+app.listen(5000, () => { console.log('Server running') });
