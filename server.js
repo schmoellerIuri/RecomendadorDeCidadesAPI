@@ -1,6 +1,5 @@
 const CidadesRepositorio = require('./CidadesRepositorio.js');
 const RoteirosRepositorio = require('./RoteirosRepositorio.js');
-const { createServer } = require('https');
 const express = require('express');
 const NodeCache = require('node-cache');
 const cors = require('cors');
