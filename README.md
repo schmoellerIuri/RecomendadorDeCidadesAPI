@@ -90,14 +90,14 @@ Caso queira utilizar dos serviços da API ela está disponível publicamente com
 
 Faça uma requisição GET para `/cidades` com os parâmetros necessários. Exemplo:
 ```bash
-curl "http://localhost:5000/cidades?lat=-23.5505&lon=-46.6333&max_temp=30&min_temp=15&raio_busca=50"
+curl "https://city-weather-backend.azurewebsites.net/cidades?lat=-23.5505&lon=-46.6333&max_temp=30&min_temp=15&raio_busca=50"
 ```
 
 ### Gerar Recomendação de Roteiro
 
 Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a lista de cidades. Exemplo:
 ```bash
-curl -X POST http://localhost:5000/recomendacao -H "Content-Type: application/json" -d '{
+curl -X POST https://city-weather-backend.azurewebsites.net/recomendacao -H "Content-Type: application/json" -d '{
   "cidades": [
     { "nome": "São Paulo", "estado": "SP" },
     { "nome": "Rio de Janeiro", "estado": "RJ" }
@@ -107,7 +107,7 @@ curl -X POST http://localhost:5000/recomendacao -H "Content-Type: application/js
 ### Gerar roteiro com a resposta da busca de cidades próximas
 Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a lista de cidades retornadas pela requisição GET de `/cidades`. Exemplo:
 ```bash
-curl -X POST http://localhost:5000/recomendacao -H "Content-Type: application/json" -d '{
+curl -X POST https://city-weather-backend.azurewebsites.net/recomendacao -H "Content-Type: application/json" -d '{
     "cidades": [
         {
             "nome": "Ribeirão Pires",
