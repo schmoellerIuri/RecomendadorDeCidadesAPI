@@ -3,6 +3,9 @@
 Este projeto implementa um servidor de recomendações de cidades com base no clima, utilizando a API GeoDB e a Weather API para obter informações geográficas e de previsão do tempo, respectivamente. Ele oferece dois endpoints principais: um para buscar cidades próximas e outro para gerar recomendações de roteiros de viagem.
 A geração dos roteiros é feita por meio da API do modelo de linguagem Google Gemini.
 
+## Versão em produção
+Caso queira utilizar dos serviços da API ela está disponível publicamente com a URL: `https://city-weather-backend.azurewebsites.net`
+
 ## Funcionalidades
 
 1. **Buscar Cidades Próximas**: 
@@ -42,8 +45,6 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
 ├── server.js
 ├── .env
 ├── package.json
-├── key.pem
-└── cert.pem
 ```
 
 ### Arquivos
@@ -52,7 +53,6 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
 - **RoteirosRepositorio.js**: Contém a lógica para gerar roteiros de viagem (não detalhado neste documento).
 - **index.js**: Arquivo principal que configura o servidor Express, define os endpoints e inicia o servidor HTTPS.
 - **.env**: Arquivo que armazena variáveis de ambiente, incluindo chaves de API.
-- **key.pem** e **cert.pem**: Arquivos de chave privada e certificado SSL para configurar o servidor HTTPS.
 
 ## Instalação
 
@@ -79,9 +79,7 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
     CLIMATE_API_KEY=sua-chave-de-api-openweathermap
     ```
 
-4. Gere e coloque os arquivos `key.pem` e `cert.pem` na raiz do projeto para configurar o HTTPS.
-
-5. Inicie o servidor:
+4. Inicie o servidor:
     ```bash
     node server.js
     ```
@@ -92,14 +90,14 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
 
 Faça uma requisição GET para `/cidades` com os parâmetros necessários. Exemplo:
 ```bash
-curl "https://localhost:443/cidades?lat=-23.5505&lon=-46.6333&max_temp=30&min_temp=15&raio_busca=50"
+curl "http://localhost:5000/cidades?lat=-23.5505&lon=-46.6333&max_temp=30&min_temp=15&raio_busca=50"
 ```
 
 ### Gerar Recomendação de Roteiro
 
 Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a lista de cidades. Exemplo:
 ```bash
-curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/json" -d '{
+curl -X POST http://localhost:5000/recomendacao -H "Content-Type: application/json" -d '{
   "cidades": [
     { "nome": "São Paulo", "estado": "SP" },
     { "nome": "Rio de Janeiro", "estado": "RJ" }
@@ -109,7 +107,7 @@ curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/js
 ### Gerar roteiro com a resposta da busca de cidades próximas
 Faça uma requisição POST para `/recomendacao` com um corpo JSON contendo a lista de cidades retornadas pela requisição GET de `/cidades`. Exemplo:
 ```bash
-curl -X POST https://localhost:443/recomendacao -H "Content-Type: application/json" -d '{
+curl -X POST http://localhost:5000/recomendacao -H "Content-Type: application/json" -d '{
     "cidades": [
         {
             "nome": "Ribeirão Pires",
@@ -360,7 +358,3 @@ Para mais informações, consulte a documentação oficial das APIs utilizadas:
 - [Google Gemini API](https://ai.google.dev/gemini-api/docs/get-started/tutorial?lang=node)
 
 Sinta-se à vontade para abrir issues para reportar bugs ou sugerir melhorias.
-
-### TODO
-- Upload de imagem docker no DockerHub.
-- Deploy da API com docker, nginx e azure.
