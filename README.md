@@ -4,7 +4,7 @@ Este projeto implementa um servidor de recomendações de cidades com base no cl
 A geração dos roteiros é feita por meio da API do modelo de linguagem Google Gemini.
 
 ## Versão em produção
-Caso queira utilizar dos serviços da API ela está disponível publicamente com a URL: `https://city-weather-backend.azurewebsites.net`
+Caso queira utilizar dos serviços da API ela está disponível publicamente com a URL: `https://city-weather-backend.azurewebsites.net` **Site temporariamente indisponível**
 
 ## Funcionalidades
 
