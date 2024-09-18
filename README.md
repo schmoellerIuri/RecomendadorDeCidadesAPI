@@ -62,8 +62,8 @@ A geração dos roteiros é feita por meio da API do modelo de linguagem Google 
 
 1. Clone o repositório:
     ```bash
-    git clone https://github.com/seu-usuario/cidades-roteiros.git
-    cd cidades-roteiros
+    git clone https://github.com/schmoellerIuri/RecomendadorDeCidadesAPI.git
+    cd RecomendadorDeCidadesAPI
     ```
 
 2. Instale as dependências:
